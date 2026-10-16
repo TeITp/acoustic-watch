@@ -1,0 +1,86 @@
+@use "../abstracts" as *;
+
+// Форма: Grid з іменованими областями.
+// мобільний — 1 колонка, md — 2, lg — 3 (як у макеті)
+.order-form {
+  display: grid;
+  gap: ($space * 1.75) ($space * 3);
+  grid-template-areas:
+    "name"
+    "email"
+    "type"
+    "period"
+    "desc"
+    "submit";
+
+  @include mq(md) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      "name   email"
+      "type   period"
+      "desc   desc"
+      "submit .";
+  }
+
+  @include mq(lg) {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+      "name   email  desc"
+      "type   period desc"
+      "submit .      .";
+  }
+
+  .btn--submit { grid-area: submit; }
+}
+
+.field {
+  $areas: name, email, type, period, desc;
+
+  @each $a in $areas {
+    &--#{$a} { grid-area: #{$a}; }
+  }
+
+  &--desc {
+    display: flex;
+    flex-direction: column;
+
+    textarea { flex: 1; }
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: $space * 0.75;
+    font-size: $fs-sm;
+    font-weight: 500;
+  }
+}
+
+.req { color: $color-danger; }
+
+input[type="text"],
+input[type="email"],
+select,
+textarea {
+  display: block;
+  width: 100%;
+  min-height: 42px;
+  padding: $space ($space * 1.5);
+  font: inherit;
+  font-size: $fs-sm;
+  color: $color-text;
+  background: $color-surface;
+  border: 1px solid #cfd6de;
+  border-radius: 5px;
+  @include transition(border-color, box-shadow);
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.15);
+  }
+}
+
+textarea {
+  min-height: 98px;
+  resize: vertical;
+}

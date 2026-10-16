@@ -1,0 +1,30 @@
+@use "../abstracts" as *;
+
+// Напрями роботи: 1 → 2 → 4 колонки (явні брейкпоінти, без «сиріт» у рядку)
+.cards {
+  display: grid;
+  gap: $space * 1.75;
+
+  @include mq(sm) { grid-template-columns: repeat(2, 1fr); }
+  @include mq(lg) { grid-template-columns: repeat(4, 1fr); }
+}
+
+.card {
+  @include panel;
+  padding: $space * 2.25;
+  @include transition(transform, box-shadow, border-color);
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: $color-primary;
+    box-shadow: 0 8px 18px rgba($color-heading, 0.08);
+  }
+
+  &__title {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    margin-bottom: $space;
+  }
+
+  &__text { font-size: $fs-sm; }
+}
