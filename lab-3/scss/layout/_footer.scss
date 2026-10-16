@@ -1,0 +1,57 @@
+@use "../abstracts" as *;
+
+// Footer: Grid з двох колонок на планшеті+, одна — на мобільному
+.site-footer {
+  margin-top: $space * 4;
+  padding: ($space * 3.5) 0;
+  background: $color-footer;
+  color: #e5e7eb;
+
+  .container {
+    display: grid;
+    gap: $space * 2;
+
+    @include mq(md) {
+      grid-template-columns: 1fr auto;
+      align-items: start;
+    }
+  }
+
+  &__name {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  &__slogan,
+  &__copy,
+  &__contacts {
+    font-size: $fs-sm;
+    font-style: normal;
+    color: #c7ced8;
+  }
+
+  &__contacts {
+    margin-top: $space;
+
+    a:hover { color: #8fd694; }
+  }
+
+  &__meta {
+    @include mq(md) { text-align: right; }
+  }
+}
+
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: ($space) ($space * 3);
+  margin-bottom: $space;
+
+  @include mq(md) { justify-content: flex-end; }
+
+  a {
+    @include transition(color);
+    &:hover { color: #8fd694; }
+  }
+}

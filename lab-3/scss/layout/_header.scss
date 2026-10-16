@@ -1,0 +1,122 @@
+@use "../abstracts" as *;
+
+// Header: Flexbox (одновимірне вирівнювання) + CSS-only бургер-меню
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: $color-surface;
+  border-bottom: 1px solid #e5e7eb;
+  padding: ($space * 1.5) 0;
+
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space;
+  }
+}
+
+.brand {
+  &__name {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: $color-heading;
+
+    @include mq(md) { font-size: 1.5rem; }
+  }
+
+  &__slogan {
+    font-size: $fs-sm;
+  }
+}
+
+// --- Бургер (видно лише на мобільних) ---
+.nav-toggle {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.burger {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  border-radius: $radius;
+
+  span,
+  span::before,
+  span::after {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: $color-heading;
+    @include transition(transform, background-color);
+  }
+
+  span { position: relative; }
+
+  span::before,
+  span::after {
+    content: "";
+    position: absolute;
+    left: 0;
+  }
+
+  span::before { top: -7px; }
+  span::after  { top: 7px; }
+
+  @include mq(md) { display: none; }
+}
+
+.nav-toggle:focus-visible + .burger {
+  outline: 2px solid $color-primary;
+}
+
+// --- Меню ---
+.main-nav {
+  display: none;
+  flex-basis: 100%;
+  flex-direction: column;
+  padding-top: $space;
+
+  &__link {
+    padding: $space 2px;
+    font-weight: 500;
+    color: $color-heading;
+    border-bottom: 2px solid transparent;
+    @include transition(color, border-color);
+
+    &:hover { color: $color-primary; }
+
+    &--active {
+      color: $color-primary;
+      font-weight: 600;
+      border-bottom-color: $color-primary;
+    }
+  }
+
+  @include mq(md) {
+    display: flex;
+    flex-direction: row;
+    flex-basis: auto;
+    gap: $space * 3.5;
+    padding-top: 0;
+  }
+}
+
+// Відкрите меню на мобільному
+.nav-toggle:checked ~ .main-nav {
+  display: flex;
+}
+
+.nav-toggle:checked + .burger span {
+  background: transparent;
+
+  &::before { transform: translateY(7px) rotate(45deg); }
+  &::after  { transform: translateY(-7px) rotate(-45deg); }
+}
