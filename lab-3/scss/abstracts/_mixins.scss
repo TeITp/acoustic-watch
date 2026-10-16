@@ -1,0 +1,39 @@
+// =========================================================
+// Міксини
+// =========================================================
+@use "sass:map";
+@use "sass:list";
+@use "variables" as *;
+
+// Медіазапит mobile-first: @include mq(md) { ... }
+@mixin mq($bp) {
+  @if not map.has-key($breakpoints, $bp) {
+    @error "Невідомий брейкпоінт: #{$bp}";
+  }
+  @media (min-width: map.get($breakpoints, $bp)) {
+    @content;
+  }
+}
+
+// Спільний вигляд «картки-панелі»
+@mixin panel($bg: $color-card) {
+  background: $bg;
+  border: 1px solid $color-border;
+  border-radius: $radius;
+}
+
+// Адаптивна сітка карток без медіазапитів
+@mixin auto-grid($min: 200px, $gap: $gutter) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min($min, 100%), 1fr));
+  gap: $gap;
+}
+
+// Плавний перехід для переліку властивостей
+@mixin transition($props...) {
+  $list: ();
+  @each $p in $props {
+    $list: list.append($list, $p 0.3s ease, comma);
+  }
+  transition: $list;
+}
