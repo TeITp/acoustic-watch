@@ -1,0 +1,45 @@
+// =========================================================
+// Змінні дизайну: кольори, шрифти, відступи, брейкпоінти
+// =========================================================
+@use "sass:map";
+
+// --- Кольори ---
+$color-primary:       #2f7d32;
+$color-primary-dark:  #1b5e20;
+$color-primary-light: #dcf1dd;
+$color-heading:       #0f1b33;
+$color-text:          #1f2937;
+$color-muted:         #4b5563;
+$color-danger:        #d32f2f;
+$color-danger-bg:     #fde8e8;
+$color-danger-border: #f19a9a;
+$color-bg:            #f7f9fb;
+$color-surface:       #ffffff;
+$color-card:          #f4f7fb;
+$color-border:        #dfe5ec;
+$color-footer:        #2b3542;
+
+// Карта статусів — генерує модифікатори через @each
+$statuses: (
+  "ok":   $color-primary,
+  "high": $color-danger,
+);
+
+// --- Типографіка ---
+$font-base: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+$fs-base: 1rem;
+$fs-sm:   0.875rem;
+$fs-xs:   0.8125rem;
+
+// --- Відступи та форма ---
+$space: 8px;             // базова одиниця сітки відступів
+$radius: 6px;
+$container-max: 1120px;
+$gutter: $space * 2;     // 16px — проміжок grid
+
+// --- Брейкпоінти (mobile-first) ---
+$breakpoints: (
+  "sm": 576px,
+  "md": 768px,
+  "lg": 1024px,
+);
