@@ -1,0 +1,90 @@
+@use "../abstracts" as *;
+
+// Hero: Grid. Мобільний — текст і фото одне під одним,
+// lg — дві колонки, фото «виходить» за правий край контейнера.
+.hero {
+  background: #eef2f6;
+  overflow: hidden;
+
+  .container {
+    display: grid;
+    gap: $space * 3;
+    padding-block: $space * 4;
+
+    @include mq(lg) {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: center;
+      padding-block: 0;
+      min-height: 340px;
+    }
+  }
+
+  &__title {
+    font-size: clamp(1.75rem, 1.2rem + 2.4vw, 2.5rem);
+    font-weight: 800;
+    margin-bottom: $space * 1.5;
+  }
+
+  &__text {
+    font-size: clamp(1rem, 0.95rem + 0.3vw, 1.125rem);
+    color: $color-text;
+    margin-bottom: $space * 3;
+  }
+
+  &__media {
+    position: relative;
+    margin: 0 (-$space * 2) (-$space * 4);   // на мобільному — на всю ширину
+    aspect-ratio: 16 / 9;
+
+    @include mq(md) {
+      margin-inline: -$space * 3;
+      aspect-ratio: 21 / 9;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 70% 25%;
+    }
+
+    @include mq(lg) {
+      height: 340px;          // фіксована висота банера на десктопі
+      aspect-ratio: auto;
+      margin: 0 calc((100vw - min(100vw, #{$container-max})) / -2 - #{$space * 3}) 0 0;
+
+      // плавний перехід фото у фон
+      &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, #eef2f6 0%, rgba(#eef2f6, 0) 40%);
+        z-index: 1;
+      }
+    }
+  }
+
+  // Декоративні «звукові хвилі» (transform)
+  &__waves {
+    position: absolute;
+    z-index: 2;
+    top: 18%;
+    left: 30%;
+    width: 110px;
+    height: 110px;
+
+    span {
+      position: absolute;
+      inset: 0;
+      border: 2px solid transparent;
+      border-top-color: rgba(#fff, 0.8);
+      border-radius: 50%;
+
+      @for $i from 1 through 3 {
+        &:nth-child(#{$i}) {
+          transform: rotate(-60deg) scale(0.25 + $i * 0.25);
+        }
+      }
+    }
+  }
+}

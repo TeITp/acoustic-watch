@@ -1,0 +1,179 @@
+@use "sass:map";
+@use "../abstracts" as *;
+
+// =========================================================
+// ЛР5: мережа датчиків, що рендериться з об'єктів NoiseSensor
+// =========================================================
+
+.sensors-summary {
+  @include auto-grid(140px, $space * 1.5);
+  margin-bottom: $space * 2;
+
+  &__item {
+    @include panel($color-surface);
+    padding: ($space * 1.5) ($space * 2);
+  }
+
+  &__label {
+    display: block;
+    font-size: $fs-xs;
+    color: $color-muted;
+  }
+
+  &__value {
+    font-size: 1.25rem;
+    color: $color-heading;
+  }
+}
+
+.sensors-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: $space * 2;
+  margin-bottom: $space * 2;
+
+  .field { margin: 0; min-width: 220px; }
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: $space;
+  min-height: 42px;
+  font-size: $fs-sm;
+  cursor: pointer;
+
+  input { width: 18px; height: 18px; accent-color: $color-primary; }
+}
+
+.sensor-grid {
+  @include auto-grid(240px);
+
+  &__empty {
+    grid-column: 1 / -1;
+    padding: $space * 2;
+    text-align: center;
+  }
+}
+
+.sensor-card {
+  --accent: #{$color-muted};
+  --tint: #{$color-card};
+
+  position: relative;
+  @include panel($color-surface);
+  border-top: 4px solid var(--accent);
+  padding: $space * 2;
+  @include transition(transform, box-shadow);
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba($color-heading, 0.08);
+  }
+
+  // .normal / .warning / .critical — з карти $sensor-statuses
+  @each $status, $c in $sensor-statuses {
+    &.#{$status} {
+      --accent: #{map.get($c, accent)};
+      --tint: #{map.get($c, bg)};
+    }
+  }
+
+  &__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: $space;
+    margin-bottom: $space;
+  }
+
+  &__id { font-size: 1.0625rem; }
+
+  &__status {
+    padding: 2px 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--tint);
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  &__level {
+    font-size: 2.25rem;
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--accent);
+    margin-bottom: $space * 1.5;
+
+    small { font-size: 1rem; font-weight: 600; }
+  }
+
+  &__meta {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 4px ($space * 1.5);
+    font-size: $fs-sm;
+
+    dt { color: $color-muted; }
+    dd { color: $color-text; }
+  }
+
+  &--mobile::after {
+    content: "мобільний";
+    position: absolute;
+    top: -12px;
+    left: $space * 2;
+    padding: 1px 8px;
+    font-size: 0.6875rem;
+    color: #fff;
+    background: $color-heading;
+    border-radius: 999px;
+  }
+}
+
+.measure-form {
+  display: grid;
+  gap: $space * 1.5;
+  align-items: end;
+  margin-top: $space * 3;
+  padding: $space * 2;
+  @include panel;
+
+  @include mq(md) {
+    grid-template-columns: 1.5fr 1fr auto;
+  }
+
+  &__title,
+  &__message { grid-column: 1 / -1; }
+
+  &__title { font-size: 1.0625rem; }
+
+  .field { margin: 0; }
+
+  &__message {
+    min-height: 1.5em;
+    font-size: $fs-sm;
+
+    &.is-ok { color: $color-primary-dark; }
+    &.is-error { color: $color-danger; }
+  }
+}
+
+input[type="number"] {
+  display: block;
+  width: 100%;
+  min-height: 42px;
+  padding: $space ($space * 1.5);
+  font: inherit;
+  font-size: $fs-sm;
+  border: 1px solid #cfd6de;
+  border-radius: 5px;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.15);
+  }
+}

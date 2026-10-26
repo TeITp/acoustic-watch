@@ -1,0 +1,51 @@
+@use "../abstracts" as *;
+
+// Показники моніторингу: 2 колонки → 3 → 5
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $space * 1.5;
+
+  @include mq(md) { grid-template-columns: repeat(3, 1fr); }
+  @include mq(lg) { grid-template-columns: repeat(5, 1fr); gap: $gutter; }
+}
+
+.stat {
+  @include panel;
+  box-sizing: border-box; // явно для картки вимірювання (глобально задано і в reset)
+  padding: $space * 2;
+
+  // остання картка займає весь рядок, коли колонок дві
+  &:last-child {
+    grid-column: 1 / -1;
+    @include mq(md) { grid-column: auto; }
+  }
+
+  &__label {
+    font-size: $fs-xs;
+    margin-bottom: $space * 0.75;
+  }
+
+  &__value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: $color-heading;
+    margin-bottom: $space;
+
+    &--small { font-size: 1.0625rem; }
+  }
+
+  &__note { font-size: $fs-xs; }
+}
+
+.badge {
+  display: block;
+  padding: 3px 12px;
+  font-size: $fs-xs;
+  border-radius: 3px;
+
+  &--ok {
+    color: $color-primary-dark;
+    background: $color-primary-light;
+  }
+}

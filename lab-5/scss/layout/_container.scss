@@ -1,0 +1,26 @@
+@use "../abstracts" as *;
+
+.container {
+  width: 100%;
+  max-width: $container-max;
+  margin-inline: auto;
+  padding-inline: $space * 2;
+
+  @include mq(md) {
+    padding-inline: $space * 3;
+  }
+}
+
+.section {
+  padding: ($space * 3) 0 $space;
+
+  &__title {
+    font-size: clamp(1.375rem, 1.1rem + 1vw, 1.625rem);
+    font-weight: 700;
+    margin-bottom: $space * 2;
+  }
+
+  &__lead {
+    margin: (-$space) 0 ($space * 2);
+  }
+}

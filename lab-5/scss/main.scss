@@ -1,0 +1,24 @@
+// =========================================================
+// Акустична варта — Лабораторна робота №5 (база — ЛР3)
+// Адаптивна верстка: CSS Grid + SCSS (mobile-first)
+// Компіляція: npx sass scss/main.scss css/style.css
+// =========================================================
+
+// Base
+@use "base/reset";
+@use "base/typography";
+
+// Layout
+@use "layout/container";
+@use "layout/header";
+@use "layout/footer";
+
+// Components
+@use "components/buttons";
+@use "components/hero";
+@use "components/stats";
+@use "components/cards";
+@use "components/warning";
+@use "components/table";
+@use "components/form";
+@use "components/sensors";
