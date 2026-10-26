@@ -1,0 +1,11 @@
+{
+  "name": "acoustic-watch-lab-7",
+  "private": true,
+  "scripts": {
+    "build": "sass scss/main.scss css/style.css --no-source-map",
+    "watch": "sass --watch scss/main.scss css/style.css"
+  },
+  "devDependencies": {
+    "sass": "^1.80.0"
+  }
+}

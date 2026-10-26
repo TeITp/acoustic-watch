@@ -1,0 +1,44 @@
+@use "sass:map";
+@use "../abstracts" as *;
+
+// На вузьких екранах таблиця прокручується горизонтально
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid $color-border;
+  border-radius: $radius;
+}
+
+.log {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  background: $color-surface;
+  font-size: $fs-sm;
+
+  th,
+  td {
+    padding: $space ($space * 1.75);
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  th {
+    font-weight: 600;
+    background: #e8edf3;
+  }
+
+  tbody tr {
+    @include transition(background-color);
+    &:hover { background: $color-card; }
+    &:last-child td { border-bottom: none; }
+  }
+}
+
+.level { font-weight: 600; }
+
+// Модифікатори кольору генеруються з карти $statuses
+@each $name, $color in $statuses {
+  .status--#{$name} { color: $color; }
+}
+
+.level--high { color: map.get($statuses, "high"); }

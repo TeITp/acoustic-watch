@@ -1,0 +1,10 @@
+@use "../abstracts" as *;
+
+h1, h2, h3 {
+  color: $color-heading;
+  line-height: 1.2;
+}
+
+p {
+  color: $color-muted;
+}
