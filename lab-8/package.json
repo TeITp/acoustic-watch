@@ -1,0 +1,15 @@
+{
+  "name": "acoustic-watch-lab-8",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Акустична варта — ЛР8: TypeScript + MockAPI",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "build:css": "sass scss/main.scss css/style.css --no-source-map"
+  },
+  "devDependencies": {
+    "sass": "^1.80.0",
+    "typescript": "^5.6.0"
+  }
+}
