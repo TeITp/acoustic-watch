@@ -1,0 +1,188 @@
+@use "sass:map";
+@use "../abstracts" as *;
+
+// =========================================================
+// ЛР6 — секція «Активні сенсори»: фільтри + картки
+// =========================================================
+
+// Кольори статусів сенсорів: основний колір і світлий фон «пігулки»
+$sensor-statuses: (
+  "normal":   (color: $color-primary, bg: #e6f4e7),
+  "warning":  (color: #d9822b,        bg: #fdf0dc),
+  "critical": (color: $color-danger,  bg: #fde8e8),
+);
+
+// Іконки як SVG data-URI (малюються через mask, тому беруть currentColor)
+$icon-pin: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21z'/%3E%3Ccircle cx='12' cy='9.5' r='2.5'/%3E%3C/svg%3E");
+$icon-building: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='3' width='16' height='18' rx='1'/%3E%3Cpath d='M9 21v-4h6v4M8 7h2M14 7h2M8 11h2M14 11h2'/%3E%3C/svg%3E");
+$icon-wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M3 10v4M7 7v10M11 3v18M15 7v10M19 10v4'/%3E%3C/svg%3E");
+
+@mixin icon($svg, $size: 18px) {
+  content: "";
+  flex: none;
+  width: $size;
+  height: $size;
+  background: currentColor;
+  mask: $svg center / contain no-repeat;
+}
+
+.active-sensors {
+  &__panel {
+    @include panel($color-surface);
+    padding: ($space * 2.5) ($space * 2);
+    box-shadow: 0 4px 16px rgba($color-heading, 0.04);
+
+    @include mq(md) { padding: ($space * 3.5) ($space * 4); }
+  }
+
+  &__title { margin-bottom: $space * 0.5; }
+
+  &__lead {
+    color: $color-muted;
+    margin-bottom: $space * 2.5;
+  }
+}
+
+// ---------- Фільтри ----------
+.sensor-filters {
+  @include panel(#f3f6f4);
+  display: grid;
+  gap: $space * 1.5;
+  align-items: end;
+  padding: ($space * 2) ($space * 2.5);
+  margin-bottom: $space * 2.5;
+
+  @include mq(md) {
+    grid-template-columns: minmax(0, 1fr) auto 1fr;
+    column-gap: $space * 3;
+  }
+
+  &__field {
+    display: grid;
+    gap: $space * 0.75;
+  }
+
+  &__label {
+    font-size: $fs-sm;
+    font-weight: 700;
+    color: #234a2b;
+  }
+
+  select { min-width: 0; }
+
+  &__check {
+    display: inline-flex;
+    align-items: center;
+    gap: $space * 1.25;
+    min-height: 42px;
+    cursor: pointer;
+    user-select: none;
+
+    input {
+      width: 20px;
+      height: 20px;
+      accent-color: $color-primary;
+      cursor: pointer;
+    }
+  }
+
+  &__hint {
+    grid-column: 1 / -1;
+    font-size: $fs-xs;
+    color: $color-muted;
+  }
+}
+
+// ---------- Список карток: 1 → 2 колонки ----------
+.sensor-list {
+  display: grid;
+  gap: $gutter;
+
+  @include mq(md) { grid-template-columns: repeat(2, 1fr); }
+}
+
+.sensor-card {
+  // значення за замовчуванням — перевизначаються модифікаторами статусу
+  --status-color: #{$color-muted};
+  --status-bg: #{$color-card};
+
+  @include panel($color-surface);
+  padding: ($space * 2) ($space * 2.25);
+  @include transition(transform, box-shadow, border-color);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba($color-heading, 0.08);
+  }
+
+  // @each генерує .sensor-card--normal / --warning / --critical
+  @each $name, $c in $sensor-statuses {
+    &--#{$name} {
+      --status-color: #{map.get($c, color)};
+      --status-bg: #{map.get($c, bg)};
+    }
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space;
+    margin-bottom: $space * 1.25;
+  }
+
+  &__id {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+  }
+
+  // «Пігулка» статусу з крапкою
+  &__status {
+    display: inline-flex;
+    align-items: center;
+    gap: $space * 0.75;
+    padding: 4px 12px;
+    font-size: $fs-sm;
+    font-weight: 600;
+    color: var(--status-color);
+    background: var(--status-bg);
+    border: 1px solid color-mix(in srgb, var(--status-color) 18%, transparent);
+    border-radius: 999px;
+
+    &::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+  }
+
+  &__district,
+  &__location,
+  &__level {
+    display: flex;
+    align-items: center;
+    gap: $space * 1.5;
+    color: $color-muted;
+  }
+
+  &__district { margin-bottom: $space * 0.5; }
+  &__district::before { @include icon($icon-pin); }
+  &__location::before { @include icon($icon-building); }
+
+  &__level {
+    margin-top: $space * 1.75;
+    padding-top: $space * 1.75;
+    border-top: 1px solid $color-border;
+
+    &::before { @include icon($icon-wave, 20px); }
+  }
+
+  &__level-value {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--status-color);
+  }
+}

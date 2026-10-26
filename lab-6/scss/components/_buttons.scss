@@ -1,0 +1,30 @@
+@use "../abstracts" as *;
+
+.btn {
+  display: inline-block;
+  padding: ($space * 1.75) ($space * 3.5);
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: $color-primary;
+  border: none;
+  border-radius: $radius;
+  cursor: pointer;
+  @include transition(background-color, transform, box-shadow);
+
+  &:hover {
+    background: $color-primary-dark;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba($color-primary, 0.3);
+  }
+
+  &:focus-visible {
+    outline: 3px solid rgba($color-primary, 0.4);
+    outline-offset: 2px;
+  }
+
+  &--submit {
+    justify-self: start;
+    padding: ($space * 1.5) ($space * 4.5);
+  }
+}
